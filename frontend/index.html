@@ -57,7 +57,7 @@
       const B = parseFloat(document.getElementById("inputB").value);
       const C = parseFloat(document.getElementById("inputC").value);
 
-      const response = await fetch("https://YOUR-RENDER-URL.onrender.com/calculate", {
+      const response = await fetch("https://faa-chit-calculator.onrender.com", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ a: A, b: B, c: C })
