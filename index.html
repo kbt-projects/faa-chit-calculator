@@ -16,6 +16,33 @@
 
     <form id="calcForm" class="space-y-4">
 
+    <script src="https://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.js"></script>
+<link href="https://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.css" rel="stylesheet"/>
+
+    <div>
+        <label for="checkin" class="block font-semibold mb-1">Check-in</label>
+        <input type="time" id="checkin" name="checkin" value="07:30">
+    </div>
+    
+    <div>
+        <label for="checkout" class="block font-semibold mb-1">Check-out</label>
+        <input type="time" id="checkout" name="checkout" value="15:30">
+    </div>
+    
+    <label for="checkin" class="block font-semibold mb-1">Rate</label>
+    
+    <div class="flex items-center gap-6">
+        <label class="flex items-center gap-2">
+        <input type="radio" name="dayType" value="standard" checked>
+        Standard Day
+        </label>
+
+        <label class="flex items-center gap-2">
+        <input type="radio" name="dayType" value="continuous">
+        Continuous Day
+        </label>
+    </div>
+
       <div>
         <label for="inputA" class="block font-semibold mb-1">Input A</label>
         <input id="inputA" type="number"
@@ -25,4 +52,50 @@
       <div>
         <label for="inputB" class="block font-semibold mb-1">Input B</label>
         <input id="inputB" type="number"
-               class="w-full p-2 border r
+               class="w-full p-2 border rounded" placeholder="Enter B">
+      </div>
+
+      <div>
+        <label for="inputC" class="block font-semibold mb-1">Input C</label>
+        <input id="inputC" type="number"
+               class="w-full p-2 border rounded" placeholder="Enter C">
+      </div>
+
+      <button type="submit"
+              class="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+        Calculate
+      </button>
+    </form>
+
+    <div id="resultBox" class="mt-6 hidden">
+      <h2 class="font-bold text-lg">Result:</h2>
+      <p id="resultValue" class="text-xl mt-2"></p>
+    </div>
+
+  </div>
+
+  <script>
+    const form = document.getElementById("calcForm");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const A = parseFloat(document.getElementById("inputA").value);
+      const B = parseFloat(document.getElementById("inputB").value);
+      const C = parseFloat(document.getElementById("inputC").value);
+
+      const response = await fetch("https://faa-chit-calculator.onrender.com/calculate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ a: A, b: B, c: C })
+      });
+
+      const data = await response.json();
+
+      document.getElementById("resultValue").textContent = data.result;
+      document.getElementById("resultBox").classList.remove("hidden");
+    });
+  </script>
+
+</body>
+</html>
